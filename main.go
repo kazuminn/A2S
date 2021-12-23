@@ -9,44 +9,38 @@ import (
 	"go/types"
 	"golang.org/x/tools/go/ssa"
 	"golang.org/x/tools/go/ssa/ssautil"
-	"os"
-
-	"github.com/k0kubun/pp"
 )
 
 func main() {
+}
+
+func loadFile(fileName string) (string, error) {
 	fset := token.NewFileSet()
-	f, err := parser.ParseFile(fset, "C:\\Users\\warug\\a2s\\sample\\sample.go", nil, parser.Mode(0))
+	f, err := parser.ParseFile(fset, "C:\\Users\\warug\\a2s\\sample\\"+fileName+".go", nil, parser.Mode(0))
 	if err != nil {
 		fmt.Println(err)
 	}
 
+	return convert2SSA(f), nil
+}
+
+func convert2SSA(file *ast.File) string {
+	return "hoge"
+}
+
+func getSSAFromGo(fileName string) (ssa.Function, error) {
+	fset := token.NewFileSet()
+	f, err := parser.ParseFile(fset, "C:\\Users\\warug\\a2s\\sample\\"+fileName+".go", nil, parser.Mode(0))
+	if err != nil {
+		fmt.Println(err)
+	}
 	files := []*ast.File{f}
-
-	// Create the type-checker's package.
 	pkg := types.NewPackage("hello", "")
-
-	// Type-check the package, load dependencies.
-	// Create and build the SSA program.
 	hello, _, err := ssautil.BuildPackage(
 		&types.Config{Importer: importer.Default()}, fset, pkg, files, ssa.SanityCheckFunctions)
 	if err != nil {
-		fmt.Print(err) // type error in some package
-		return
+		return ssa.Function{}, err
 	}
 
-	// Print out the package.
-	pp.Println("%#v", hello.Func("add"))
-
-	fmt.Printf("-----------------------------------------")
-
-	hello.WriteTo(os.Stdout)
-
-	for _, d := range f.Decls {
-		ast.Print(fset, d)
-	}
-}
-
-func convert2SSA() string {
-    return "hoge"
+	return *hello.Func("f"), nil
 }

@@ -1,5 +1,5 @@
 package sample
 
-func add() int {
+func f() int {
 	return 1 + 2
 }
