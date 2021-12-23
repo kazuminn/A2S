@@ -1,25 +1,25 @@
 package main
 
 import (
-	"fmt"
-	"go/ast"
-	"go/importer"
-	"go/parser"
-	"go/token"
-	"go/types"
-	"golang.org/x/tools/go/ssa"
-	"golang.org/x/tools/go/ssa/ssautil"
-	"os"
+    "fmt"
+    "go/ast"
+    "go/parser"
+    "go/token"
+    "go/types"
+    "go/importer"
+    "golang.org/x/tools/go/ssa/ssautil"
+    "golang.org/x/tools/go/ssa"
+    "os"
 
-	"github.com/k0kubun/pp"
+    "github.com/k0kubun/pp"
 )
 
 func main() {
-	fset := token.NewFileSet()
-	f, err := parser.ParseFile(fset, "C:\\Users\\warug\\a2s\\sample\\sample.go", nil, parser.Mode(0))
-	if err != nil {
-		fmt.Println(err)
-	}
+    fset := token.NewFileSet()
+    f, err := parser.ParseFile(fset, "C:\\Users\\warug\\a2s\\sample\\sample.go", nil, parser.Mode(0))
+    if err != nil {
+	fmt.Println(err)
+    }
 
 	files := []*ast.File{f}
 
@@ -36,17 +36,13 @@ func main() {
 	}
 
 	// Print out the package.
-	pp.Println("%#v", hello.Func("add"))
+	fmt.Printf("%#v", hello.Func("add").Blocks)
 
 	fmt.Printf("-----------------------------------------")
 
 	hello.WriteTo(os.Stdout)
 
-	for _, d := range f.Decls {
-		ast.Print(fset, d)
-	}
-}
-
-func convert2SSA() string {
-    return "hoge"
+    for _, d := range f.Decls {
+        ast.Print(fset, d)
+    }
 }
