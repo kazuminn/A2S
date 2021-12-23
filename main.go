@@ -14,7 +14,7 @@ import (
 func main() {
 }
 
-func loadFile(fileName string) (string, error) {
+func loadFile(fileName string) (ssa.Function, error) {
 	fset := token.NewFileSet()
 	f, err := parser.ParseFile(fset, "C:\\Users\\warug\\a2s\\sample\\"+fileName+".go", nil, parser.Mode(0))
 	if err != nil {
@@ -24,8 +24,8 @@ func loadFile(fileName string) (string, error) {
 	return convert2SSA(f), nil
 }
 
-func convert2SSA(file *ast.File) string {
-	return "hoge"
+func convert2SSA(file *ast.File) ssa.Function {
+	return ssa.Function{} 
 }
 
 func getSSAFromGo(fileName string) (ssa.Function, error) {
