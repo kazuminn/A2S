@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"go/ast"
 	"go/importer"
 	"go/parser"
@@ -14,18 +13,17 @@ import (
 func main() {
 }
 
-func loadFile(fileName string) (*ast.File, error) {
+func loadFile(fileName string) (*ast.File, *token.FileSet, error) {
 	fset := token.NewFileSet()
-	f, err := parser.ParseFile(fset, "C:\\Users\\warug\\a2s\\sample\\"+fileName+".go", nil, parser.Mode(0))
+	f, err := parser.ParseFile(fset, ".\\sample\\"+fileName+".go", nil, parser.Mode(0))
 	if err != nil {
-		fmt.Println(err)
 	}
 
-	return f, nil
+	return f, fset, nil
 }
 
 func getCustomSSA(fileName string) (ssa.Function, error) {
-	file, err := loadFile(fileName)
+	file, _, err := loadFile(fileName)
 	if err != nil {
 		return ssa.Function{}, err
 	}
@@ -38,12 +36,12 @@ func convert2SSA(file *ast.File) ssa.Function {
 }
 
 func getOrgSSA(fileName string) (ssa.Function, error) {
-	fset := token.NewFileSet()
-	f, err := parser.ParseFile(fset, "C:\\Users\\warug\\a2s\\sample\\"+fileName+".go", nil, parser.Mode(0))
+	file, fset, err := loadFile(fileName)
 	if err != nil {
-		fmt.Println(err)
+		return ssa.Function{}, err
 	}
-	files := []*ast.File{f}
+
+	files := []*ast.File{file}
 	pkg := types.NewPackage("hello", "")
 	hello, _, err := ssautil.BuildPackage(
 		&types.Config{Importer: importer.Default()}, fset, pkg, files, ssa.SanityCheckFunctions)

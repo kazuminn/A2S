@@ -4,6 +4,7 @@ import (
 	//"golang.org/x/tools/go/ssa"
 	//"golang.org/x/tools/go/ssa/ssautil"
 	"fmt"
+	"os"
 
 	"github.com/k0kubun/pp"
 	"reflect"
@@ -15,10 +16,12 @@ func TestAdd(t *testing.T) {
 	CusSsa, err := getCustomSSA(fileName)
 	if err != nil {
 		fmt.Println(err)
+		os.Exit(0)
 	}
 	OrgSsa, err := getOrgSSA(fileName)
 	if err != nil {
 		fmt.Println(err)
+		os.Exit(0)
 	}
 
 	if !reflect.DeepEqual(OrgSsa, CusSsa) {
