@@ -11,18 +11,19 @@ import (
 )
 
 func TestAdd(t *testing.T) {
-	r, err := loadFile("add")
+	fileName := "add"
+	ssa, err := loadFile(fileName)
 	if err != nil {
 		fmt.Println(err)
 	}
-	ssa, _ := getSSAFromGo("add")
+	ssaOrg, err := getSSAFromGo(fileName)
 	if err != nil {
 		fmt.Println(err)
 	}
 
-	if !reflect.DeepEqual(ssa, r) {
-		e := pp.Sprintf("%v", ssa)
-		a := pp.Sprintf("%v", r)
+	if !reflect.DeepEqual(ssaOrg, ssa) {
+		e := pp.Sprintf("%v", ssaOrg)
+		a := pp.Sprintf("%v", ssa)
 		t.Errorf("expected %s, actual %s", e, a)
 	}
 }
