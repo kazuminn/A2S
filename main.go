@@ -14,21 +14,30 @@ import (
 func main() {
 }
 
-func loadFile(fileName string) (ssa.Function, error) {
+func loadFile(fileName string) (*ast.File, error) {
 	fset := token.NewFileSet()
 	f, err := parser.ParseFile(fset, "C:\\Users\\warug\\a2s\\sample\\"+fileName+".go", nil, parser.Mode(0))
 	if err != nil {
 		fmt.Println(err)
 	}
 
-	return convert2SSA(f), nil
+	return f, nil
+}
+
+func getCustomSSA(fileName string) (ssa.Function, error) {
+    file, err := loadFile(fileName)
+    if err != nil {
+        return ssa.Function{}, err
+    }
+
+    return convert2SSA(file), nil
 }
 
 func convert2SSA(file *ast.File) ssa.Function {
 	return ssa.Function{} 
 }
 
-func getSSAFromGo(fileName string) (ssa.Function, error) {
+func getOrgSSA(fileName string) (ssa.Function, error) {
 	fset := token.NewFileSet()
 	f, err := parser.ParseFile(fset, "C:\\Users\\warug\\a2s\\sample\\"+fileName+".go", nil, parser.Mode(0))
 	if err != nil {

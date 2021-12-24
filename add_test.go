@@ -12,18 +12,18 @@ import (
 
 func TestAdd(t *testing.T) {
 	fileName := "add"
-	ssa, err := loadFile(fileName)
+	CusSsa, err := getCustomSSA(fileName)
 	if err != nil {
 		fmt.Println(err)
 	}
-	ssaOrg, err := getSSAFromGo(fileName)
+	OrgSsa, err := getOrgSSA(fileName)
 	if err != nil {
 		fmt.Println(err)
 	}
 
-	if !reflect.DeepEqual(ssaOrg, ssa) {
-		e := pp.Sprintf("%v", ssaOrg)
-		a := pp.Sprintf("%v", ssa)
-		t.Errorf("expected %s, actual %s", e, a)
+	if !reflect.DeepEqual(OrgSsa, CusSsa) {
+		o := pp.Sprintf("%v", OrgSsa)
+		c := pp.Sprintf("%v", CusSsa)
+		t.Errorf("expected %s, actual %s", o, c)
 	}
 }
