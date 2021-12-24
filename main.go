@@ -25,16 +25,16 @@ func loadFile(fileName string) (*ast.File, error) {
 }
 
 func getCustomSSA(fileName string) (ssa.Function, error) {
-    file, err := loadFile(fileName)
-    if err != nil {
-        return ssa.Function{}, err
-    }
+	file, err := loadFile(fileName)
+	if err != nil {
+		return ssa.Function{}, err
+	}
 
-    return convert2SSA(file), nil
+	return convert2SSA(file), nil
 }
 
 func convert2SSA(file *ast.File) ssa.Function {
-	return ssa.Function{} 
+	return ssa.Function{}
 }
 
 func getOrgSSA(fileName string) (ssa.Function, error) {
